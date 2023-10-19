@@ -32,7 +32,8 @@ public class WebSecurity {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.requestMatchers(
-                            "/health/**"
+                            "/health/**",
+                            "/auth/**"
                     ).permitAll();
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                 })

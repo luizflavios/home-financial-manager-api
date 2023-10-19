@@ -12,3 +12,6 @@ spring:
 
 swagger:
   enabled: true
+
+secret.key: 123123123
+token.life: 3600000
