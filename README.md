@@ -6,6 +6,9 @@ Api responsável por forneçer o backend do home-financial-manger.
 
 - JDK 17
 - Maven
+- Spring 3
+- MySql
+- Docker
 
 ## Execução
 
@@ -13,6 +16,12 @@ Instale home-financial-manager com maven.
 
 ```bash
   mvn clean instal
+```
+
+Instale o container para executar o banco de dados
+
+```bash
+  docker-compose up
 ```
 
 Utilize o comando para subir o serviço localment.
