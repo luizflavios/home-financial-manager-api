@@ -10,8 +10,5 @@ spring:
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-swagger:
-  enabled: true
-
 secret.key: chavemaissecretadouniversointeiro33x
 token.life: 3600000
