@@ -18,7 +18,7 @@ Instale home-financial-manager com maven.
   mvn clean instal
 ```
 
-Instale o container para executar o banco de dados
+Instale o container docker para executar o banco de dados
 
 ```bash
   docker-compose up
@@ -38,4 +38,4 @@ Para acessar a documentação OPENAPI (Swagger).
 
 ## Features
 
-in building...
+building...
