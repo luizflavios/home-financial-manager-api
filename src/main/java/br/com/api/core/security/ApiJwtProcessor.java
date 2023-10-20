@@ -3,7 +3,7 @@ package br.com.api.core.security;
 import br.com.api.core.configuration.ApiConfiguration;
 import br.com.api.core.exception.TokenGenerationException;
 import br.com.api.core.exception.ValidateTokenException;
-import br.com.api.models.dto.authentication.AuthenticationModelResponseDTO;
+import br.com.api.models.dto.authentication.TokenModelDTO;
 import br.com.api.repository.AuthenticationModelRepository;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -34,7 +34,7 @@ public class ApiJwtProcessor {
     private final ApiConfiguration apiConfiguration;
     private final AuthenticationModelRepository authenticationModelRepository;
 
-    public AuthenticationModelResponseDTO generateAuthentication(String userHash) {
+    public TokenModelDTO generateAuthentication(String userHash) {
         try {
             var signer = new MACSigner(apiConfiguration.getSecretKey());
             var expiresIn = generateExpiration();
@@ -49,7 +49,7 @@ public class ApiJwtProcessor {
 
             var token = signedJWT.serialize();
 
-            return AuthenticationModelResponseDTO.builder()
+            return TokenModelDTO.builder()
                     .accessToken(token)
                     .expiresIn(expiresIn.getTime())
                     .build();
@@ -62,7 +62,7 @@ public class ApiJwtProcessor {
     public ApiAuthentication authenticate(HttpServletRequest request) {
         try {
 
-            var token = request.getHeader(AUTHORIZATION);
+            var token = request.getHeader(AUTHORIZATION).replace("Bearer ", "");
 
             if (isBlank(token)) {
                 throw new ValidateTokenException("token isn't present on current request");

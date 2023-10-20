@@ -1,17 +1,13 @@
 package br.com.api.models.mapper;
 
+import br.com.api.core.generics.IGenericMapper;
 import br.com.api.models.dto.authentication.AuthenticationModelRequestDTO;
 import br.com.api.models.dto.authentication.AuthenticationModelResponseDTO;
 import br.com.api.models.entities.AuthenticationModel;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-import static org.mapstruct.factory.Mappers.getMapper;
-
-@Mapper
-public interface AuthenticationModelMapper {
-    AuthenticationModelMapper INSTANCE = getMapper(AuthenticationModelMapper.class);
-
-    AuthenticationModel toEntity(AuthenticationModelRequestDTO requestDTO);
-
-    AuthenticationModelResponseDTO toDTO(AuthenticationModel model);
+@Component
+@Mapper(componentModel = "spring")
+public interface AuthenticationModelMapper extends IGenericMapper<AuthenticationModelRequestDTO, AuthenticationModelResponseDTO, AuthenticationModel> {
 }

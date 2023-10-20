@@ -1,10 +1,8 @@
 package br.com.api.models.entities;
 
+import br.com.api.core.enums.SecurityLevel;
 import br.com.api.core.generics.IGenericEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,12 +15,16 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 @Builder
 public class Role implements IGenericEntity, GrantedAuthority {
-    
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "security_level", nullable = false)
+    private SecurityLevel securityLevel;
 
     @Override
     public String getAuthority() {

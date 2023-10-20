@@ -13,5 +13,5 @@ spring:
 swagger:
   enabled: true
 
-secret.key: 123123123
+secret.key: chavemaissecretadouniversointeiro33x
 token.life: 3600000

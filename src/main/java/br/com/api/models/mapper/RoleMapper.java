@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper(componentModel = "spring")
 public interface RoleMapper extends IGenericMapper<RoleRequestDTO, RoleResponseDTO, Role> {
+
 }

@@ -25,11 +25,13 @@ import static jakarta.persistence.EnumType.ORDINAL;
 @Builder
 public class AuthenticationModel implements IGenericEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
 
-    @Column(unique = true)
-    @UuidGenerator
+    @Basic
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.AUTO)
     private UUID hash;
 
     @Column(nullable = false)

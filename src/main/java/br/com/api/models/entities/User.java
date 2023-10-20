@@ -19,6 +19,7 @@ import java.util.Collection;
 public class User implements IGenericEntity, UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
 
