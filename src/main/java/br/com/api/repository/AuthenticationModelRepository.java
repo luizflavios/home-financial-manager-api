@@ -12,4 +12,6 @@ public interface AuthenticationModelRepository extends IJpaSpecificationReposito
     Optional<AuthenticationModel> findByHash(UUID hash);
 
     Optional<AuthenticationModel> findByUsernameAndPassword(String username, String password);
+
+    Optional<AuthenticationModel> findByUsername(String username);
 }

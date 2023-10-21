@@ -15,6 +15,7 @@ import java.util.Set;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.ORDINAL;
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -34,6 +35,10 @@ public class Transaction implements IGenericEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @ManyToOne(optional = false, fetch = EAGER)
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private BigDecimal amount;

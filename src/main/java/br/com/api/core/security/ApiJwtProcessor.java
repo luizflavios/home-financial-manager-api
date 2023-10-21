@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.Serial;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,9 +27,7 @@ import static org.apache.logging.log4j.util.Strings.isBlank;
 @RequiredArgsConstructor
 public class ApiJwtProcessor {
 
-    public static final String AUTHORIZATION = "Authorization";
-    @Serial
-    private static final long serialVersionUID = 2405172041950251807L;
+    private static final String AUTHORIZATION = "Authorization";
     private final ApiConfiguration apiConfiguration;
     private final AuthenticationModelRepository authenticationModelRepository;
 
@@ -89,7 +86,7 @@ public class ApiJwtProcessor {
                 throw new ValidateTokenException("user was not able to proceed with this request");
             }
 
-            return new ApiAuthentication(authenticationModel.getRoles(), authenticationModel.getUser(), signedJWT.getJWTClaimsSet(), token);
+            return new ApiAuthentication(authenticationModel.getRoles(), authenticationModel, signedJWT.getJWTClaimsSet(), token);
 
         } catch (Exception e) {
             throw new ValidateTokenException(e.getMessage());

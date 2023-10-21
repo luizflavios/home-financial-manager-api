@@ -1,11 +1,15 @@
 package br.com.api.core.security;
 
+import br.com.api.service.AuthenticationModelService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,21 +26,28 @@ public class WebSecurity {
 
     private final AuthEntryPoint authEntryPoint;
     private final ApiFilter apiFilter;
+    private final AuthenticationModelService authenticationModelService;
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurity(AuthEntryPoint authEntryPoint, ApiFilter apiFilter) {
+    public WebSecurity(AuthEntryPoint authEntryPoint, ApiFilter apiFilter, AuthenticationModelService authenticationModelService, PasswordEncoder passwordEncoder) {
         this.authEntryPoint = authEntryPoint;
         this.apiFilter = apiFilter;
+        this.authenticationModelService = authenticationModelService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(this.corsConfiguration()))
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(STATELESS))
                 .addFilterAt(apiFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(this.authenticationProvider())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/users/**").permitAll();
+
                     authorizationManagerRequestMatcherRegistry.requestMatchers(
                             "/health/**",
                             "/auth/**",
@@ -45,6 +56,7 @@ public class WebSecurity {
                             "/swagger-ui/**",
                             "/swagger-resources/**"
                     ).permitAll();
+
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                 })
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(this.authEntryPoint));
@@ -61,9 +73,15 @@ public class WebSecurity {
 
         var corsConfigurationSource = new UrlBasedCorsConfigurationSource();
         corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-
         return corsConfigurationSource;
     }
 
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        var authProvider = new DaoAuthenticationProvider();
+        authProvider.setPasswordEncoder(this.passwordEncoder);
+        authProvider.setUserDetailsService(this.authenticationModelService);
+        return authProvider;
+    }
 
 }

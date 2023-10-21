@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,28 +23,24 @@ public class GenericController<I extends IGenericRequestDTO, O extends IGenericR
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "List pageable")
     public Page<O> list(Pageable pageable, @RequestParam(required = false) String query, @RequestParam(required = false) List<FilterCriteria> filters) {
         return service.list(pageable, query, filters);
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Get by id")
     public ResponseEntity<Object> get(@PathVariable Long id) {
         return new ResponseEntity<>(service.get(id), HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Create")
     public ResponseEntity<O> save(@Valid @RequestBody I requestDTO) {
         return new ResponseEntity<>(service.create(requestDTO), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody I requestDTO) {
         service.update(id, requestDTO);
@@ -53,7 +48,6 @@ public class GenericController<I extends IGenericRequestDTO, O extends IGenericR
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         service.delete(id);

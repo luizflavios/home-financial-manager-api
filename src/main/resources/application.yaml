@@ -12,3 +12,11 @@ spring:
 
 secret.key: chavemaissecretadouniversointeiro33x
 token.life: 3600000
+
+api:
+  mailer:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    tls: true
+    username: 143364ce966164
+    password: 2528685cf96b73

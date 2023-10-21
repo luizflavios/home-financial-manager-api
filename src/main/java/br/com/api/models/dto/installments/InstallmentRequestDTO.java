@@ -1,6 +1,5 @@
 package br.com.api.models.dto.installments;
 
-import br.com.api.core.enums.PaymentStatus;
 import br.com.api.core.generics.IGenericRequestDTO;
 import br.com.api.models.dto.GenericRequestDTO;
 import lombok.Builder;
@@ -16,6 +15,5 @@ public class InstallmentRequestDTO implements IGenericRequestDTO {
     @NotNull
     private BigDecimal amount;
     private GenericRequestDTO transaction;
-    private PaymentStatus paymentStatus;
     private LocalDate dueDate;
 }

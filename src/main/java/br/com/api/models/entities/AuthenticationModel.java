@@ -7,8 +7,11 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +26,7 @@ import static jakarta.persistence.EnumType.ORDINAL;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationModel implements IGenericEntity {
+public class AuthenticationModel implements IGenericEntity, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -34,7 +37,7 @@ public class AuthenticationModel implements IGenericEntity {
     @UuidGenerator(style = UuidGenerator.Style.AUTO)
     private UUID hash;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -63,5 +66,30 @@ public class AuthenticationModel implements IGenericEntity {
 
     public Boolean isActive() {
         return !this.status.equals(INACTIVE);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isActive();
     }
 }
