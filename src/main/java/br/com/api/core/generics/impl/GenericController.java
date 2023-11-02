@@ -5,14 +5,13 @@ import br.com.api.core.generics.IGenericEntity;
 import br.com.api.core.generics.IGenericRequestDTO;
 import br.com.api.core.generics.IGenericResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 public class GenericController<I extends IGenericRequestDTO, O extends IGenericResponseDTO, E extends IGenericEntity> {
 
@@ -24,8 +23,8 @@ public class GenericController<I extends IGenericRequestDTO, O extends IGenericR
 
     @GetMapping
     @Operation(summary = "List pageable")
-    public Page<O> list(Pageable pageable, @RequestParam(required = false) String query, @RequestParam(required = false) List<FilterCriteria> filters) {
-        return service.list(pageable, query, filters);
+    public Page<O> list(@PageableDefault Pageable pageable, FilterCriteria filter) {
+        return service.list(pageable, filter);
     }
 
     @GetMapping(path = "/{id}")

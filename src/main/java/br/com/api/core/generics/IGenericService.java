@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
@@ -18,6 +17,6 @@ public interface IGenericService<I extends IGenericRequestDTO, O extends IGeneri
 
     Optional<O> get(Long id);
 
-    Page<O> list(Pageable pageable, String query, List<FilterCriteria> filters);
+    Page<O> list(Pageable pageable, FilterCriteria filters);
 
 }

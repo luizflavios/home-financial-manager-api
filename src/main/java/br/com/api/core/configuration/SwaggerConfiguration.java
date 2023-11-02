@@ -19,7 +19,7 @@ public class SwaggerConfiguration {
     public OpenAPI openAPI() {
         var server = new Server();
         server.setUrl("http://localhost:8080/");
-        server.setDescription("Localhost boladão");
+        server.setDescription("Localhost");
 
         var contact = new Contact();
         contact.setEmail("home-financial-manager@hotmail.com");

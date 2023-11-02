@@ -3,6 +3,7 @@ package br.com.api.models.dto.transaction;
 import br.com.api.core.enums.PaymentStatus;
 import br.com.api.core.enums.PaymentWay;
 import br.com.api.core.generics.IGenericResponseDTO;
+import br.com.api.models.dto.user.UserResponseDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class TransactionResponseDTO implements IGenericResponseDTO {
     private PaymentStatus paymentStatus;
     private PaymentWay paymentWay;
     private LocalDate dueDate;
+    private UserResponseDTO user;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

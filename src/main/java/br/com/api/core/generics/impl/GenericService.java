@@ -12,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-
-import static io.micrometer.common.util.StringUtils.isNotBlank;
 
 public abstract class GenericService<I extends IGenericRequestDTO, O extends IGenericResponseDTO, E extends IGenericEntity> implements IGenericService<I, O> {
 
@@ -27,8 +24,8 @@ public abstract class GenericService<I extends IGenericRequestDTO, O extends IGe
         this.genericRepository = genericRepository;
     }
 
-    protected Specification<E> buildDefaultSpecification(List<FilterCriteria> filters) {
-        return new AbstractFilterSpecification<>(filters) {
+    protected Specification<E> buildDefaultSpecification(FilterCriteria filter) {
+        return new AbstractFilterSpecification<>(filter) {
             @Override
             public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return buildFilterPredicate(root, criteriaBuilder);
@@ -36,20 +33,9 @@ public abstract class GenericService<I extends IGenericRequestDTO, O extends IGe
         };
     }
 
-    protected Page<E> findByQuery(Pageable pageable, String query) {
-        return null;
-    }
-
     @Transactional(readOnly = true)
-    public Page<O> list(Pageable pageable, String query, List<FilterCriteria> filters) {
-        Page<E> list = null;
-
-        if (isNotBlank(query)) {
-            list = findByQuery(pageable, query);
-        } else {
-            list = genericRepository.findAll(Specification.where(buildDefaultSpecification(filters)), pageable);
-        }
-
+    public Page<O> list(Pageable pageable, FilterCriteria filter) {
+        var list = genericRepository.findAll(Specification.where(buildDefaultSpecification(filter)), pageable);
         return new PageImpl<>(list.stream().map(genericMapper::toDTO).toList(), pageable, list.getTotalElements());
     }
 

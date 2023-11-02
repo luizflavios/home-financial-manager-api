@@ -2,10 +2,10 @@ package br.com.api.models.dto.installments;
 
 import br.com.api.core.generics.IGenericRequestDTO;
 import br.com.api.models.dto.GenericRequestDTO;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

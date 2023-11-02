@@ -8,27 +8,23 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("java:S119")
 public abstract class AbstractFilterSpecification<E> implements Specification<E> {
 
-    protected final transient List<FilterCriteria> filters;
+    protected final transient FilterCriteria filter;
 
-    protected AbstractFilterSpecification(List<FilterCriteria> filters) {
-        this.filters = filters;
+    protected AbstractFilterSpecification(FilterCriteria filter) {
+        this.filter = filter;
     }
 
     protected Predicate buildFilterPredicate(Path<E> root, CriteriaBuilder builder) {
-        if (filters == null || filters.isEmpty()) {
+        if (filter == null) {
             return null;
         }
 
-        return builder.and(filters.stream()
-                .map(filter -> buildFilterItemPredicate(filter, root, builder))
-                .filter(Objects::nonNull)
-                .toArray(Predicate[]::new));
+        return buildFilterItemPredicate(filter, root, builder);
     }
 
     protected Predicate[] stripNulls(Predicate... predicates) {

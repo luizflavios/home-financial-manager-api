@@ -21,7 +21,6 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Async
-    
     public void sendNotification(GenericNotification genericNotification) {
         try {
             genericNotification.buildPreNotification();

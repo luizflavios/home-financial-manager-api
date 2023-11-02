@@ -2,13 +2,12 @@ package br.com.api.models.dto.user;
 
 import br.com.api.core.generics.IGenericRequestDTO;
 import br.com.api.models.dto.authentication.AuthenticationModelRequestDTO;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 @Builder

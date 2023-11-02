@@ -41,4 +41,5 @@ public class AuthenticationModelService extends GenericService<AuthenticationMod
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return ((AuthenticationModelRepository) genericRepository).findByUsername(username).orElseThrow(AuthenticationModelNotFoundException::new);
     }
+
 }

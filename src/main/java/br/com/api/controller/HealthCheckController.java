@@ -1,5 +1,6 @@
 package br.com.api.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/health")
+@Hidden
 @Tag(name = "Health", description = "Health Controller")
 public class HealthCheckController {
 
