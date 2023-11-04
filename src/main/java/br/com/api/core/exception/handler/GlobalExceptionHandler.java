@@ -1,5 +1,6 @@
 package br.com.api.core.exception.handler;
 
+import br.com.api.core.exception.OpenedBudgetExistsException;
 import br.com.api.core.exception.OpenedInstallmentNotFoundException;
 import br.com.api.core.exception.PaymentMethodNotAllowedException;
 import br.com.api.core.exception.model.Error;
@@ -90,6 +91,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UnsupportedOperationException.class)
     public ResponseEntity<Object> handleUnsupportedOperationException(UnsupportedOperationException exception) {
         var status = HttpStatus.NOT_ACCEPTABLE;
+
+        var body = Error.builder()
+                .cause(status.getReasonPhrase())
+                .message(exception.getMessage())
+                .statusCode(status.value())
+                .timestamp(now())
+                .build();
+
+        return new ResponseEntity<>(body, status);
+    }
+
+    @ExceptionHandler(OpenedBudgetExistsException.class)
+    public ResponseEntity<Object> handleOpenedBudgetExistsException(OpenedBudgetExistsException exception) {
+        var status = HttpStatus.PRECONDITION_FAILED;
 
         var body = Error.builder()
                 .cause(status.getReasonPhrase())

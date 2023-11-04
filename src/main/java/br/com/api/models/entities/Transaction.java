@@ -41,6 +41,11 @@ public class Transaction implements IGenericEntity {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(nullable = false)
+    @ToString.Exclude
+    private Budget budget;
+
     @Column(nullable = false)
     private BigDecimal amount;
 

@@ -1,5 +1,6 @@
 package br.com.api.core.utils;
 
+import br.com.api.models.entities.Budget;
 import br.com.api.models.entities.Installment;
 import br.com.api.models.entities.Transaction;
 import lombok.experimental.UtilityClass;
@@ -17,7 +18,7 @@ public class MathUtils {
 
     public static final Integer ZERO = 0;
 
-    public static BigDecimal balanceDueCalculator(Transaction transaction) {
+    public static BigDecimal transactionBalanceDueCalculator(Transaction transaction) {
         if (TRUE.equals(paymentMayHaveInstallments(transaction.getPaymentWay()))) {
             var amount = transaction.getAmount();
 
@@ -30,6 +31,10 @@ public class MathUtils {
             return amount.subtract(paidAmount);
         }
         return null;
+    }
+
+    public static BigDecimal budgetBalanceDueCalculator(Budget budget) {
+        return isNull(budget.getTransactions()) ? null : budget.getTransactions().stream().map(Transaction::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static Integer paidInstallmentsQuantity(Set<Installment> installments) {

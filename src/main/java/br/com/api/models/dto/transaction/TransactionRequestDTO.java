@@ -26,6 +26,8 @@ public class TransactionRequestDTO implements IGenericRequestDTO {
     private String description;
     @NotNull("transaction category can't be null")
     private GenericRequestDTO transactionCategory;
+    @NotNull("budget can't be null")
+    private GenericRequestDTO budget;
     @NotNull
     @DecimalMin(value = "0.1", message = "amount can't be zero", inclusive = false)
     private BigDecimal amount;
