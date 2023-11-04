@@ -14,8 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.apache.logging.log4j.util.Strings.isBlank;
+
 public abstract class GenericService<I extends IGenericRequestDTO, O extends IGenericResponseDTO, E extends IGenericEntity> implements IGenericService<I, O> {
 
+    public static final String STRING = "string";
     protected final IGenericMapper<I, O, E> genericMapper;
     protected final IJpaSpecificationRepository<E, Long> genericRepository;
 
@@ -35,8 +38,17 @@ public abstract class GenericService<I extends IGenericRequestDTO, O extends IGe
 
     @Transactional(readOnly = true)
     public Page<O> list(Pageable pageable, FilterCriteria filter) {
+        filter = validateFilter(filter);
         var list = genericRepository.findAll(Specification.where(buildDefaultSpecification(filter)), pageable);
         return new PageImpl<>(list.stream().map(genericMapper::toDTO).toList(), pageable, list.getTotalElements());
+    }
+
+    private FilterCriteria validateFilter(FilterCriteria filter) {
+        if (isBlank(filter.property()) || STRING.equals(filter.property())) {
+            return null;
+        } else {
+            return filter;
+        }
     }
 
     @Transactional(readOnly = true)

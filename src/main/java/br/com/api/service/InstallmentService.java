@@ -49,4 +49,9 @@ public class InstallmentService extends GenericService<InstallmentRequestDTO, In
 
         return installments.stream().sorted(Comparator.comparing(Installment::getDueDate)).collect(toCollection(LinkedHashSet::new));
     }
+
+    public Installment updateEntity(Installment installment) {
+        return this.genericRepository.saveAndFlush(installment);
+    }
+
 }

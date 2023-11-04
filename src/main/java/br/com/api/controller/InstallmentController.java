@@ -16,4 +16,5 @@ public class InstallmentController extends GenericController<InstallmentRequestD
     protected InstallmentController(GenericService<InstallmentRequestDTO, InstallmentResponseDTO, Installment> service) {
         super(service);
     }
+
 }
