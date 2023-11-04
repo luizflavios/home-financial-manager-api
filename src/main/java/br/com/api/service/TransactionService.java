@@ -27,6 +27,7 @@ import static br.com.api.core.enums.PaymentStatus.PAID;
 import static br.com.api.core.enums.PaymentWay.paymentMayHaveInstallments;
 import static br.com.api.core.utils.ApiUtils.getLoggedUser;
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Service
 public class TransactionService extends GenericService<TransactionRequestDTO, TransactionResponseDTO, Transaction> {
@@ -108,8 +109,18 @@ public class TransactionService extends GenericService<TransactionRequestDTO, Tr
             this.genericRepository.save(transaction);
         }
 
-        var installment = installments.get(0);
-        installment.setPaymentStatus(PAID);
-        this.installmentService.updateEntity(installment);
+        this.installmentService.payInstallment(installments.get(0));
+    }
+
+    public void payOff(Long transactionId) {
+        var transaction = this.genericRepository.findById(transactionId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        if (TRUE.equals(paymentMayHaveInstallments(transaction.getPaymentWay()))) {
+            transaction.getInstallments().forEach(installmentService::payInstallment);
+        }
+
+        transaction.setPaymentStatus(PAID);
+        this.genericRepository.saveAndFlush(transaction);
     }
 }

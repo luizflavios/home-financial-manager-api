@@ -86,6 +86,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
+
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity<Object> handleUnsupportedOperationException(UnsupportedOperationException exception) {
+        var status = HttpStatus.NOT_ACCEPTABLE;
+
+        var body = Error.builder()
+                .cause(status.getReasonPhrase())
+                .message(exception.getMessage())
+                .statusCode(status.value())
+                .timestamp(now())
+                .build();
+
+        return new ResponseEntity<>(body, status);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var body = Error.builder()
@@ -97,4 +112,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, status);
     }
+
 }

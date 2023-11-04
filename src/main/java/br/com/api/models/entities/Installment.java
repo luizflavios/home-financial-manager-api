@@ -43,6 +43,9 @@ public class Installment implements IGenericEntity {
     @Column(nullable = false, name = "due_date")
     private LocalDate dueDate;
 
+    @Column(name = "paid_at")
+    private LocalDateTime paidAt;
+
     @CreationTimestamp
     @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;

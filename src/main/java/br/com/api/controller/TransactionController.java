@@ -30,4 +30,11 @@ public class TransactionController extends GenericController<TransactionRequestD
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/payoff")
+    @Operation(summary = "Pay off Transaction")
+    public ResponseEntity<Void> payOff(@RequestParam Long transaction) {
+        ((TransactionService) this.service).payOff(transaction);
+        return ResponseEntity.noContent().build();
+    }
+
 }
