@@ -3,6 +3,7 @@ package br.com.api.models.dto.transaction;
 import br.com.api.core.annotations.Conditional;
 import br.com.api.core.enums.PaymentWay;
 import br.com.api.core.generics.IGenericRequestDTO;
+import br.com.api.models.dto.GenericRequestDTO;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -23,6 +24,8 @@ import java.time.LocalDate;
 public class TransactionRequestDTO implements IGenericRequestDTO {
     @NotBlank
     private String description;
+    @NotNull("transaction category can't be null")
+    private GenericRequestDTO transactionCategory;
     @NotNull
     @DecimalMin(value = "0.1", message = "amount can't be zero", inclusive = false)
     private BigDecimal amount;

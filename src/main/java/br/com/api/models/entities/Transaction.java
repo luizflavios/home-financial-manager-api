@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.EnumType.ORDINAL;
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
@@ -50,6 +51,10 @@ public class Transaction implements IGenericEntity {
     @Enumerated(ORDINAL)
     @Column(nullable = false, name = "payment_way")
     private PaymentWay paymentWay;
+
+    @ManyToOne(fetch = EAGER, cascade = DETACH)
+    @JoinColumn(name = "category_id")
+    private TransactionCategory transactionCategory;
 
     @Column(nullable = false, name = "due_date")
     private LocalDate dueDate;
