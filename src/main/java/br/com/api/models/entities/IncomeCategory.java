@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "transactions_categories")
+@Table(name = "income_categories")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionCategory implements IGenericEntity {
+public class IncomeCategory implements IGenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +25,4 @@ public class TransactionCategory implements IGenericEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "family_id")
     private Family family;
-
 }

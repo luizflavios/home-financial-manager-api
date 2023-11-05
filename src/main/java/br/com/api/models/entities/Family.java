@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.util.Set;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "families")
 @Getter
@@ -24,10 +27,20 @@ public class Family implements IGenericEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = LAZY)
     @JoinTable(name = "family_users",
             joinColumns = @JoinColumn(name = "family_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @ToString.Exclude
     private Set<User> users;
+
+    @OneToMany(mappedBy = "family", cascade = ALL, fetch = LAZY)
+    @ToString.Exclude
+    private Set<TransactionCategory> transactionCategories;
+
+
+    @OneToMany(mappedBy = "family", cascade = ALL, fetch = LAZY)
+    @ToString.Exclude
+    private Set<IncomeCategory> incomeCategories;
 
 }
