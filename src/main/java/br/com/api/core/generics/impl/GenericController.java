@@ -4,6 +4,7 @@ import br.com.api.core.generics.FilterCriteria;
 import br.com.api.core.generics.IGenericEntity;
 import br.com.api.core.generics.IGenericRequestDTO;
 import br.com.api.core.generics.IGenericResponseDTO;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ public class GenericController<I extends IGenericRequestDTO, O extends IGenericR
     }
 
     @GetMapping
+    @Hidden
     @Operation(summary = "List pageable")
     public Page<O> list(@PageableDefault Pageable pageable, FilterCriteria filter) {
         return service.list(pageable, filter);
