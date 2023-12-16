@@ -31,13 +31,13 @@ public class ApiJwtProcessor {
     private final ApiConfiguration apiConfiguration;
     private final AuthenticationModelRepository authenticationModelRepository;
 
-    public TokenModelDTO generateAuthentication(String userHash) {
+    public TokenModelDTO generateAuthentication(UUID userHash) {
         try {
             var signer = new MACSigner(apiConfiguration.getSecretKey());
             var expiresIn = generateExpiration();
 
             var claimsSet = new JWTClaimsSet.Builder()
-                    .subject(userHash)
+                    .subject(userHash.toString())
                     .expirationTime(expiresIn)
                     .build();
 

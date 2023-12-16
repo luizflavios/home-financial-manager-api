@@ -15,9 +15,6 @@ public class BudgetRequestDTO implements IGenericRequestDTO {
     @NotNull
     private GenericRequestDTO family;
     @NotNull
-    @DecimalMin(value = "0.1", message = "totalIncome can't be zero", inclusive = false)
-    private BigDecimal totalIncome;
-    @NotNull
     @DecimalMin(value = "0.1", message = "totalExpense can't be zero", inclusive = false)
     private BigDecimal totalExpense;
 }

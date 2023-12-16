@@ -26,6 +26,7 @@ import static br.com.api.core.enums.PaymentStatus.OPEN;
 import static br.com.api.core.enums.PaymentStatus.PAID;
 import static br.com.api.core.enums.PaymentWay.paymentMayHaveInstallments;
 import static br.com.api.core.utils.ApiUtils.getLoggedUser;
+import static br.com.api.core.utils.MathUtils.ZERO;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
@@ -71,7 +72,7 @@ public class TransactionService extends GenericService<TransactionRequestDTO, Tr
     }
 
     private void checkForInstallments(TransactionRequestDTO requestDTO, Transaction entity) {
-        if (Boolean.TRUE.equals(paymentMayHaveInstallments(entity.getPaymentWay()))) {
+        if (Boolean.TRUE.equals(paymentMayHaveInstallments(entity.getPaymentWay())) && requestDTO.getInstallmentsQuantity() > ZERO) {
             var installments = this.installmentService
                     .buildInstallments(entity.getAmount(), requestDTO.getInstallmentsQuantity(), requestDTO.getStartDate());
 

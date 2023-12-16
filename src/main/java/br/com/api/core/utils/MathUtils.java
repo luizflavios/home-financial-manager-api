@@ -10,8 +10,10 @@ import java.util.Set;
 
 import static br.com.api.core.enums.PaymentStatus.PAID;
 import static br.com.api.core.enums.PaymentWay.paymentMayHaveInstallments;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @UtilityClass
 public class MathUtils {
@@ -19,7 +21,10 @@ public class MathUtils {
     public static final Integer ZERO = 0;
 
     public static BigDecimal transactionBalanceDueCalculator(Transaction transaction) {
-        if (TRUE.equals(paymentMayHaveInstallments(transaction.getPaymentWay()))) {
+        if (TRUE.equals(paymentMayHaveInstallments(transaction.getPaymentWay()))
+                && nonNull(transaction.getInstallments())
+                && FALSE.equals(transaction.getInstallments().isEmpty())) {
+
             var amount = transaction.getAmount();
 
             var paidAmount = transaction.getInstallments()

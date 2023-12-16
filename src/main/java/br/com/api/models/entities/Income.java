@@ -4,6 +4,8 @@ import br.com.api.core.generics.IGenericEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.FetchType.EAGER;
 
@@ -24,6 +26,9 @@ public class Income implements IGenericEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
 
     @ManyToOne(fetch = EAGER, cascade = DETACH)
     @JoinColumn(name = "income_category", nullable = false)

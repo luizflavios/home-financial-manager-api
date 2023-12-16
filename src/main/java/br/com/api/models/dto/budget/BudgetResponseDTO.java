@@ -18,6 +18,7 @@ public class BudgetResponseDTO implements IGenericResponseDTO {
     private BigDecimal totalIncome;
     private BigDecimal balanceDue;
     private BigDecimal totalExpense;
+    private Boolean expenseAlert;
     private Boolean active;
     private Set<TransactionResponseDTO> transactions;
     private LocalDateTime createdAt;

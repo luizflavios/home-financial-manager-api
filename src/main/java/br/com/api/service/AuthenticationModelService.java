@@ -34,7 +34,7 @@ public class AuthenticationModelService extends GenericService<AuthenticationMod
     public TokenModelDTO login(AuthenticationModelRequestDTO requestDTO) {
         var authenticationModel = (AuthenticationModel) this.loadUserByUsername(requestDTO.getUsername());
         this.passwordEncoder.matches(requestDTO.getPassword(), authenticationModel.getPassword());
-        return apiJwtProcessor.generateAuthentication(authenticationModel.getHash().toString());
+        return apiJwtProcessor.generateAuthentication(authenticationModel.getHash());
     }
 
     @Override

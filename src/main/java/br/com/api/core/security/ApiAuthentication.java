@@ -35,10 +35,6 @@ public class ApiAuthentication extends AbstractAuthenticationToken {
         return this.userDetails;
     }
 
-    public String getToken() {
-        return this.token;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

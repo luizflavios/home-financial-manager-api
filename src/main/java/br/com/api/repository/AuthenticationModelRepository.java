@@ -11,7 +11,5 @@ import java.util.UUID;
 public interface AuthenticationModelRepository extends IJpaSpecificationRepository<AuthenticationModel, Long> {
     Optional<AuthenticationModel> findByHash(UUID hash);
 
-    Optional<AuthenticationModel> findByUsernameAndPassword(String username, String password);
-
     Optional<AuthenticationModel> findByUsername(String username);
 }
